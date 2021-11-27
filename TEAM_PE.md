@@ -16,6 +16,11 @@
   * Implement Feature 1
   * Assist with webserver tests
 
+* Yaseen 
+  * Implement Refactoring 1 
+  * Assist with tests 
+  * Start work on updating UML 
+
 * Everyone
   * Webserver tests (division tbd, if necessary)
   * Documentation
