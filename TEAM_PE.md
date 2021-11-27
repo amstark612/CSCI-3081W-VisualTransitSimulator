@@ -8,6 +8,10 @@
 #### Distribution of Work
 **Step 1: Please, provide here a brief description (one short paragraph) of the distribution of work across your team. You can refine this description as you carry out the project iteration.**
 
+* Sam
+* Complete necessary model tests.
+* Assist with webserver tests.
+
 ### Project Responsibilities of the Individual
 * Individually, contribute to the success of the team according to the policies and schedule agreed upon by all team members. Individually, create the opportunity for everyone in your group to succeed at being a good team member - don't do all the work yourself.
 
