@@ -28,5 +28,11 @@ Establish your own additional team policies around the following aspects:
 #### Additional Expectations and Responsabilities
 **Step 2: Please, describe here (using as much text as you need) additional expections and responsabilities for this project iteration**.
 
+* Weekly group meetings: 12:30-2:15pm Thursdays in person
+* Response time: Within 24 hours at the latest
+* Primary communication method: Text message
+* Communication about bugs and difficulties: Immediately
+
 ## Team Member Names
 **Step 3: Please enter your name. Each one of the team members should add the name through a different commit. For example, student A adds their name and commits, then student B adds their name and commits.**
+* Samuel Highbargin
