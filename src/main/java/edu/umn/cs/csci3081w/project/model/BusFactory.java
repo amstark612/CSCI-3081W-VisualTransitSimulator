@@ -27,15 +27,24 @@ public class BusFactory implements VehicleFactory {
     String typeOfVehicle = generationStrategy.getTypeOfVehicle(storageFacility);
     Vehicle generatedVehicle = null;
     if (typeOfVehicle != null && typeOfVehicle.equals(SmallBus.SMALL_BUS_VEHICLE)) {
-      generatedVehicle = new SmallBus(counter.getSmallBusIdCounterAndIncrement(),
-          line, SmallBus.CAPACITY, SmallBus.SPEED);
+      generatedVehicle = new SmallBusColorVehicleDecorator(
+        new SmallBus(counter.getSmallBusIdCounterAndIncrement(),
+          line, SmallBus.CAPACITY, SmallBus.SPEED)
+      );
+      // generatedVehicle = new SmallBus(counter.getSmallBusIdCounterAndIncrement(),
+      //     line, SmallBus.CAPACITY, SmallBus.SPEED);
       storageFacility.decrementSmallBusesNum();
     } else if (typeOfVehicle != null && typeOfVehicle.equals(LargeBus.LARGE_BUS_VEHICLE)) {
-      generatedVehicle = new LargeBus(counter.getLargeBusIdCounterAndIncrement(), line,
-          LargeBus.CAPACITY, LargeBus.SPEED);
+      generatedVehicle = new LargeBusColorVehicleDecorator(
+          new LargeBus(counter.getLargeBusIdCounterAndIncrement(),
+              line, LargeBus.CAPACITY, LargeBus.SPEED)
+      );
+      // generatedVehicle = new LargeBus(counter.getLargeBusIdCounterAndIncrement(), line,
+      //     LargeBus.CAPACITY, LargeBus.SPEED);
       storageFacility.decrementLargeBusesNum();
     }
-    return generatedVehicle;
+
+    return generatedVehicle == null ? null : new NormalVehicleOpacityDecorator(generatedVehicle);
   }
 
   @Override
