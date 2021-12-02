@@ -12,6 +12,7 @@ public abstract class VehicleDecorator extends Vehicle {
     // does this matter?
     super(vehicle.getId(), vehicle.getLine(), vehicle.getCapacity(), vehicle.getSpeed(),
           vehicle.getPassengerLoader(), vehicle.getPassengerUnloader());
+    setPosition(vehicle.getPosition());
     this.vehicle = vehicle;
   }
 
