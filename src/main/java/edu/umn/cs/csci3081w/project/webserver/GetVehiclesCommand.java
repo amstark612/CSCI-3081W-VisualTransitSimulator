@@ -52,10 +52,10 @@ public class GetVehiclesCommand extends SimulatorCommand {
       positionJsonObject.addProperty("latitude", currVehicle.getPosition().getLatitude());
       s.add("position", positionJsonObject);
       JsonObject colorJsonObject = new JsonObject();
-      colorJsonObject.addProperty("r", 255);
-      colorJsonObject.addProperty("g", 255);
-      colorJsonObject.addProperty("b", 255);
-      colorJsonObject.addProperty("alpha", 255);
+      colorJsonObject.addProperty("r", currVehicle.getColor().getRed());
+      colorJsonObject.addProperty("g", currVehicle.getColor().getGreen());
+      colorJsonObject.addProperty("b", currVehicle.getColor().getBlue());
+      colorJsonObject.addProperty("alpha", currVehicle.getColor().getAlpha());
       s.add("color", colorJsonObject);
       vehiclesArray.add(s);
     }

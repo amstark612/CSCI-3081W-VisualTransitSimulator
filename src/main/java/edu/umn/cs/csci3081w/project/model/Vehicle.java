@@ -1,6 +1,7 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import com.google.gson.JsonObject;
+import java.awt.Color;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public abstract class Vehicle implements VehicleObserver {
   private List<Integer> carbonEmissionHistory;
   private VehicleConcreteSubject vehicleConcreteSubject;
   private JsonObject testOutput;
+  private Color color;
 
 
   /**
@@ -49,6 +51,7 @@ public abstract class Vehicle implements VehicleObserver {
     setPosition(new Position(nextStop.getPosition().getLongitude(),
         nextStop.getPosition().getLatitude()));
     carbonEmissionHistory = new ArrayList<Integer>();
+    color = new Color(255, 255, 255, 155);
   }
 
   public abstract void report(PrintStream out);
@@ -310,5 +313,9 @@ public abstract class Vehicle implements VehicleObserver {
 
   public void setVehicleSubject(VehicleConcreteSubject vehicleConcreteSubject) {
     this.vehicleConcreteSubject = vehicleConcreteSubject;
+  }
+
+  public Color getColor() {
+    return color;
   }
 }
