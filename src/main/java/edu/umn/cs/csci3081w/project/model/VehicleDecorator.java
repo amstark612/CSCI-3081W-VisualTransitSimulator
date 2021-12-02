@@ -6,10 +6,12 @@ public abstract class VehicleDecorator extends Vehicle {
 
   protected Vehicle vehicle;
 
+  /**
+   * Decorates an existing vehicle.
+   *
+   * @param vehicle the vehicle to be decorated
+   */
   public VehicleDecorator(Vehicle vehicle) {
-    // this creates a new vehicle that we don't need. does the garbage collector immediately
-    // come and get rid of it since we are not maintaining a reference to it anywhere?
-    // does this matter?
     super(vehicle.getId(), vehicle.getLine(), vehicle.getCapacity(), vehicle.getSpeed(),
           vehicle.getPassengerLoader(), vehicle.getPassengerUnloader());
     setPosition(vehicle.getPosition());
