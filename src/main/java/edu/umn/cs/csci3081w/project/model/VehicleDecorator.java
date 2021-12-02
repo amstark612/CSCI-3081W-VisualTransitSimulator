@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 public abstract class VehicleDecorator extends Vehicle {
 
-  private Vehicle vehicle;
+  protected Vehicle vehicle;
 
   public VehicleDecorator(Vehicle vehicle) {
     // this creates a new vehicle that we don't need. does the garbage collector immediately
@@ -24,8 +24,13 @@ public abstract class VehicleDecorator extends Vehicle {
   }
 
   @Override
+  public Vehicle getBaseVehicle() {
+    return vehicle.getBaseVehicle();
+  }
+
+  @Override
   public Vehicle getVehicle() {
-    return vehicle.getVehicle();
+    return vehicle;
   }
 
   @Override

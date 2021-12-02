@@ -334,4 +334,8 @@ public abstract class Vehicle implements VehicleObserver {
   public Vehicle getVehicle() {
     return this;
   }
+
+  public Vehicle getBaseVehicle() {
+    return this;
+  }
 }

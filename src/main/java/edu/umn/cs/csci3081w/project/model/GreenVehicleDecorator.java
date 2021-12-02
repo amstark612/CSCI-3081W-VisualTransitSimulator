@@ -2,13 +2,13 @@ package edu.umn.cs.csci3081w.project.model;
 
 import java.awt.Color;
 
-public class DieselTrainColorDecorator extends VehicleDecorator {
+public class GreenVehicleDecorator extends VehicleDecorator {
 
   private Color color;
 
-  public DieselTrainColorDecorator(Vehicle vehicle) {
+  public GreenVehicleDecorator(Vehicle vehicle) {
     super(vehicle);
-    color = new Color(255, 204, 51);
+    color = new Color(60, 179, 113);
   }
 
   @Override
