@@ -25,6 +25,21 @@ public abstract class VehicleDecorator extends Vehicle {
 
   @Override
   public Vehicle getVehicle() {
-    return vehicle;
+    return vehicle.getVehicle();
+  }
+
+  @Override
+  public int getRed() {
+    return vehicle.getRed();
+  }
+
+  @Override
+  public int getGreen() {
+    return vehicle.getGreen();
+  }
+
+  @Override
+  public int getBlue() {
+    return vehicle.getBlue();
   }
 }

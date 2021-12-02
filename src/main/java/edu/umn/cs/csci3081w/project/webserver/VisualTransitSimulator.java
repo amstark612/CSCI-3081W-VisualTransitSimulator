@@ -126,9 +126,9 @@ public class VisualTransitSimulator {
       if (currVehicle.isTripComplete()) {
         Vehicle completedTripVehicle = activeVehicles.remove(i);
         completedTripVehicles.add(completedTripVehicle);
-        if (completedTripVehicle instanceof Bus) {
+        if (completedTripVehicle.getVehicle() instanceof Bus) {
           busFactory.returnVehicle(completedTripVehicle);
-        } else if (completedTripVehicle instanceof Train) {
+        } else if (completedTripVehicle.getVehicle() instanceof Train) {
           trainFactory.returnVehicle(completedTripVehicle);
         }
       } else {

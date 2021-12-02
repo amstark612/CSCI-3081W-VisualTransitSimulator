@@ -33,9 +33,6 @@ public class TrainFactory implements VehicleFactory {
           line, ElectricTrain.CAPACITY,
           ElectricTrain.SPEED)
       );
-      // generatedVehicle = new ElectricTrain(counter.getElectricTrainIdCounterAndIncrement(),
-      //     line, ElectricTrain.CAPACITY,
-      //     ElectricTrain.SPEED);
       storageFacility.decrementElectricTrainsNum();
     } else if (typeOfVehicle != null && typeOfVehicle.equals(DieselTrain.DIESEL_TRAIN_VEHICLE)) {
       generatedVehicle = new DieselTrainColorDecorator(
@@ -43,20 +40,17 @@ public class TrainFactory implements VehicleFactory {
           line, DieselTrain.CAPACITY,
           DieselTrain.SPEED)
       );
-      // generatedVehicle = new DieselTrain(counter.getDieselTrainIdCounterAndIncrement(),
-      //     line, DieselTrain.CAPACITY,
-      //     DieselTrain.SPEED);
       storageFacility.decrementDieselTrainsNum();
     }
 
-    return generatedVehicle;
+    return generatedVehicle != null ? (new NormalVehicleOpacityDecorator(generatedVehicle)) : null;
   }
 
   @Override
   public void returnVehicle(Vehicle vehicle) {
-    if (vehicle instanceof ElectricTrain) {
+    if (vehicle.getVehicle() instanceof ElectricTrain) {
       storageFacility.incrementElectricTrainsNum();
-    } else if (vehicle instanceof DieselTrain) {
+    } else if (vehicle.getVehicle() instanceof DieselTrain) {
       storageFacility.incrementDieselTrainsNum();
     }
   }
