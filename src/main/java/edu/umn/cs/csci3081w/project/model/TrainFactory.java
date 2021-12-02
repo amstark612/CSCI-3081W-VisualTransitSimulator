@@ -28,24 +28,24 @@ public class TrainFactory implements VehicleFactory {
     Vehicle generatedVehicle = null;
 
     if (typeOfVehicle != null && typeOfVehicle.equals(ElectricTrain.ELECTRIC_TRAIN_VEHICLE)) {
-      // generatedVehicle = new ElectricTrainColorVehicleDecorator(
-      //   new ElectricTrain(counter.getElectricTrainIdCounterAndIncrement(),
-      //     line, ElectricTrain.CAPACITY,
-      //     ElectricTrain.SPEED)
-      // );
-      generatedVehicle = new ElectricTrain(counter.getElectricTrainIdCounterAndIncrement(),
+      generatedVehicle = new ElectricTrainColorDecorator(
+        new ElectricTrain(counter.getElectricTrainIdCounterAndIncrement(),
           line, ElectricTrain.CAPACITY,
-          ElectricTrain.SPEED);
+          ElectricTrain.SPEED)
+      );
+      // generatedVehicle = new ElectricTrain(counter.getElectricTrainIdCounterAndIncrement(),
+      //     line, ElectricTrain.CAPACITY,
+      //     ElectricTrain.SPEED);
       storageFacility.decrementElectricTrainsNum();
     } else if (typeOfVehicle != null && typeOfVehicle.equals(DieselTrain.DIESEL_TRAIN_VEHICLE)) {
-      // generatedVehicle = new DieselTrainColorVehicleDecorator(
-      //   new DieselTrain(counter.getDieselTrainIdCounterAndIncrement(),
-      //     line, DieselTrain.CAPACITY,
-      //     DieselTrain.SPEED)
-      // );
-      generatedVehicle = new DieselTrain(counter.getDieselTrainIdCounterAndIncrement(),
+      generatedVehicle = new DieselTrainColorDecorator(
+        new DieselTrain(counter.getDieselTrainIdCounterAndIncrement(),
           line, DieselTrain.CAPACITY,
-          DieselTrain.SPEED);
+          DieselTrain.SPEED)
+      );
+      // generatedVehicle = new DieselTrain(counter.getDieselTrainIdCounterAndIncrement(),
+      //     line, DieselTrain.CAPACITY,
+      //     DieselTrain.SPEED);
       storageFacility.decrementDieselTrainsNum();
     }
 

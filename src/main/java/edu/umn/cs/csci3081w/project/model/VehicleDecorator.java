@@ -1,14 +1,12 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import java.io.PrintStream;
-import java.awt.Color;
 
-public abstract class ColorVehicleDecorator extends Vehicle {
+public abstract class VehicleDecorator extends Vehicle {
 
   private Vehicle vehicle;
-  private Color color;
 
-  public ColorVehicleDecorator(Vehicle vehicle) {
+  public VehicleDecorator(Vehicle vehicle) {
     // this creates a new vehicle that we don't need. does the garbage collector immediately
     // come and get rid of it since we are not maintaining a reference to it anywhere?
     // does this matter?
@@ -26,7 +24,7 @@ public abstract class ColorVehicleDecorator extends Vehicle {
   }
 
   @Override
-  public Color getColor() {
-    return color;
+  public Vehicle getVehicle() {
+    return vehicle;
   }
 }

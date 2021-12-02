@@ -51,7 +51,7 @@ public abstract class Vehicle implements VehicleObserver {
     setPosition(new Position(nextStop.getPosition().getLongitude(),
         nextStop.getPosition().getLatitude()));
     carbonEmissionHistory = new ArrayList<Integer>();
-    color = new Color(255, 255, 255, 155);
+    color = new Color(255, 255, 255, 255);
   }
 
   public abstract void report(PrintStream out);
@@ -315,7 +315,23 @@ public abstract class Vehicle implements VehicleObserver {
     this.vehicleConcreteSubject = vehicleConcreteSubject;
   }
 
-  public Color getColor() {
-    return color;
+  public int getRed() {
+    return color.getRed();
+  }
+
+  public int getGreen() {
+    return color.getGreen();
+  }
+
+  public int getBlue() {
+    return color.getBlue();
+  }
+
+  public int getAlpha() {
+    return color.getAlpha();
+  }
+
+  public Vehicle getVehicle() {
+    return this;
   }
 }
