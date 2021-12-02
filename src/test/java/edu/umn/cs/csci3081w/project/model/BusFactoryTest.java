@@ -109,4 +109,198 @@ public class BusFactoryTest {
     assertEquals(2, busFactory.getStorageFacility().getLargeBusesNum());
 
   }
+
+  /**
+   * Testing if vehicle got returned.
+   */
+  @Test
+  public void testReturnVehicleSmallBus() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Bus testBus = new SmallBus(1, new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
+        new Issue()), 3, 1.0);
+
+    assertEquals(2, busFactory.getStorageFacility().getSmallBusesNum());
+    assertEquals(1, busFactory.getStorageFacility().getLargeBusesNum());
+    busFactory.returnVehicle(testBus);
+    assertEquals(3, busFactory.getStorageFacility().getSmallBusesNum());
+    assertEquals(1, busFactory.getStorageFacility().getLargeBusesNum());
+
+  }
+
+  /**
+   * Testing if nothing got returned.
+   */
+  @Test
+  public void testReturnVehicleNull() {
+    Bus testBus = null;
+
+    assertEquals(2, busFactory.getStorageFacility().getSmallBusesNum());
+    assertEquals(1, busFactory.getStorageFacility().getLargeBusesNum());
+    busFactory.returnVehicle(testBus);
+    assertEquals(2, busFactory.getStorageFacility().getSmallBusesNum());
+    assertEquals(1, busFactory.getStorageFacility().getLargeBusesNum());
+
+  }
+
+  /**
+   * Testing if generated vehicle is working according to nighttime strategy.
+   */
+  @Test
+  public void testGenerateVehicleNight() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Line line = new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
+        new Issue());
+    this.storageFacility = new StorageFacility(3, 1, 0, 0);
+    this.busFactory = new BusFactory(this.storageFacility, new Counter(), 4);
+    Vehicle vehicle = busFactory.generateVehicle(line);
+    assertTrue(vehicle instanceof SmallBus);
+    vehicle = busFactory.generateVehicle(line);
+    assertTrue(vehicle instanceof SmallBus);
+    vehicle = busFactory.generateVehicle(line);
+    assertTrue(vehicle instanceof SmallBus);
+    vehicle = busFactory.generateVehicle(line);
+    assertTrue(vehicle instanceof LargeBus);
+  }
+
+  /**
+   * Testing if nothing is generated when no vehicles are available.
+   */
+  @Test
+  public void testGenerateVehicleNoneAvailable() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Line line = new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
+        new Issue());
+    this.storageFacility = new StorageFacility(0, 0, 0, 0);
+    this.busFactory = new BusFactory(this.storageFacility, new Counter(), 4);
+    Vehicle vehicle = busFactory.generateVehicle(line);
+    assertEquals(null, vehicle);
+  }
+
+  /**
+   * Testing if small buses are generated, but not large if there are none available.
+   */
+  @Test
+  public void testGenerateVehicleNoLargeAvailable() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Line line = new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
+        new Issue());
+    this.storageFacility = new StorageFacility(3, 0, 0, 0);
+    this.busFactory = new BusFactory(this.storageFacility, new Counter(), 23);
+    Vehicle vehicle = busFactory.generateVehicle(line);
+    assertTrue(vehicle instanceof SmallBus);
+    vehicle = busFactory.generateVehicle(line);
+    assertTrue(vehicle instanceof SmallBus);
+    vehicle = busFactory.generateVehicle(line);
+    assertTrue(vehicle instanceof SmallBus);
+    vehicle = busFactory.generateVehicle(line);
+    assertEquals(null, vehicle);
+  }
 }

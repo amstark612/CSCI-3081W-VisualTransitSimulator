@@ -1,6 +1,7 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
@@ -236,6 +237,42 @@ public class LineTest {
     assertEquals(false, testLine.isIssueExist());
 
 
+  }
+
+  /**
+   * Tests if isIssueExist function works properly.
+   */
+  @Test
+  public void testIsIssueExistNullIssue() {
+    testStop = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(testStop);
+    List<Double> distancesOut = new ArrayList<Double>();
+    distancesOut.add(0.9712663713083954);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(.15);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+    Route testRouteOut = new Route(10, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    List<Stop> stopsIn = new ArrayList<>();
+    stopsIn.add(testStop);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.961379387775189);
+    List<Double> probabilitiesIn = new ArrayList<>();
+    probabilitiesIn.add(.4);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+    Route testRouteIn = new Route(11, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+
+    testLine = new Line(0, "testLine", Line.BUS_LINE,
+        testRouteOut, testRouteIn,
+        null);
+    assertFalse(testLine.isIssueExist());
+    testLine.update();
+    assertFalse(testLine.isIssueExist());
   }
 
   /**

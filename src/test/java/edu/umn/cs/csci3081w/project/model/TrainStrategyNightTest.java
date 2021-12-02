@@ -30,4 +30,36 @@ public class TrainStrategyNightTest {
       assertEquals(DieselTrain.DIESEL_TRAIN_VEHICLE, strToCmpr);
     }
   }
+
+  /**
+   * Testing to get nothing if no trains are available.
+   */
+  @Test
+  public void testNoTrainsAvailable() {
+    StorageFacility storageFacility = new StorageFacility(0, 0, 0, 0);
+    TrainStrategyNight trainStrategyDay = new TrainStrategyNight();
+    String strToCmpr;
+    for (int i = 0; i < 1; i++) {
+      strToCmpr = trainStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+      strToCmpr = trainStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+    }
+  }
+
+  /**
+   * Testing to get an electric train, but no diesel trains if none are available.
+   */
+  @Test
+  public void testNoDieselTrainAvailable() {
+    StorageFacility storageFacility = new StorageFacility(0, 0, 1, 0);
+    TrainStrategyNight trainStrategyDay = new TrainStrategyNight();
+    String strToCmpr;
+    for (int i = 0; i < 1; i++) {
+      strToCmpr = trainStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(ElectricTrain.ELECTRIC_TRAIN_VEHICLE, strToCmpr);
+      strToCmpr = trainStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+    }
+  }
 }
