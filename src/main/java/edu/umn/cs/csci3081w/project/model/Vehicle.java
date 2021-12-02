@@ -25,7 +25,6 @@ public abstract class Vehicle implements VehicleObserver {
   private JsonObject testOutput;
   private Color color;
 
-
   /**
    * Constructor for a vehicle.
    *

@@ -27,7 +27,7 @@ public class BusFactory implements VehicleFactory {
     String typeOfVehicle = generationStrategy.getTypeOfVehicle(storageFacility);
     Vehicle generatedVehicle = null;
     if (typeOfVehicle != null && typeOfVehicle.equals(SmallBus.SMALL_BUS_VEHICLE)) {
-      generatedVehicle = new MaroonColorDecorator(
+      generatedVehicle = new MaroonVehicleDecorator(
         new SmallBus(counter.getSmallBusIdCounterAndIncrement(),
           line, SmallBus.CAPACITY, SmallBus.SPEED)
       );
@@ -40,7 +40,7 @@ public class BusFactory implements VehicleFactory {
       storageFacility.decrementLargeBusesNum();
     }
 
-    return generatedVehicle != null ? (new OpaqueVehicleDecorator(generatedVehicle)) : null;
+    return generatedVehicle;
   }
 
   @Override

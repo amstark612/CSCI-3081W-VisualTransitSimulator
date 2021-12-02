@@ -43,7 +43,7 @@ public class TrainFactory implements VehicleFactory {
       storageFacility.decrementDieselTrainsNum();
     }
 
-    return generatedVehicle != null ? (new OpaqueVehicleDecorator(generatedVehicle)) : null;
+    return generatedVehicle;
   }
 
   @Override
