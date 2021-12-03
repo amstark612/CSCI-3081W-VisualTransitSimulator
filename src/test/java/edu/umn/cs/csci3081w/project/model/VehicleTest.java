@@ -1,14 +1,13 @@
 package edu.umn.cs.csci3081w.project.model;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.google.gson.JsonObject;
+import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,6 @@ public class VehicleTest {
    */
   @BeforeEach
   public void setUp() {
-    //Vehicle.TESTING = true;
     List<Stop> stopsIn = new ArrayList<Stop>();
     Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
     Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
@@ -163,20 +161,6 @@ public class VehicleTest {
    */
   @Test
   public void testProvideInfo() {
-//    testVehicle.update();
-//    testVehicle.provideInfo();
-//    //JsonObject testOutput = testVehicle.getTestOutput();
-//    String command = testOutput.get("command").getAsString();
-//    String expectedCommand = "observedVehicle";
-//    assertEquals(expectedCommand, command);
-//    String observedText = testOutput.get("text").getAsString();
-//    String expectedText = "1" + System.lineSeparator()
-//        + "-----------------------------" + System.lineSeparator()
-//        + "* Type: " + System.lineSeparator()
-//        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
-//        + "* Passengers: 0" + System.lineSeparator()
-//        + "* CO2: 0" + System.lineSeparator();
-//    assertEquals(expectedText, observedText);
     WebServerSession sessionDummy = mock(WebServerSession.class);
     VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
     testVehicle.setVehicleSubject(vehicleConcreteSubject);

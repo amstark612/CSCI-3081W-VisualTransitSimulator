@@ -24,7 +24,6 @@ public class VehicleConcreteSubjectTest {
    */
   @BeforeEach
   public void setUp() {
-    //Vehicle.TESTING = true;
     List<Stop> stopsIn = new ArrayList<Stop>();
     Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
     Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
@@ -96,23 +95,6 @@ public class VehicleConcreteSubjectTest {
    */
   @Test
   public void testNotifyObservers() {
-//    VehicleConcreteSubject vehicleConcreteSubject =
-//        new VehicleConcreteSubject(new WebServerSession());
-//    vehicleConcreteSubject.attachObserver(testVehicle);
-//    testVehicle.update();
-//    vehicleConcreteSubject.notifyObservers();
-//    JsonObject testOutput = testVehicle.getTestOutput();
-//    String command = testOutput.get("command").getAsString();
-//    String expectedCommand = "observedVehicle";
-//    assertEquals(expectedCommand, command);
-//    String observedText = testOutput.get("text").getAsString();
-//    String expectedText = "1" + System.lineSeparator()
-//        + "-----------------------------" + System.lineSeparator()
-//        + "* Type: " + System.lineSeparator()
-//        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
-//        + "* Passengers: 0" + System.lineSeparator()
-//        + "* CO2: 0" + System.lineSeparator();
-//    assertEquals(expectedText, observedText);
     WebServerSession sessionDummy = mock(WebServerSession.class);
     VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
     vehicleConcreteSubject.attachObserver(testVehicle);
