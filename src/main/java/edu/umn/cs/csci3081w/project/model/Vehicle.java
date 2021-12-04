@@ -265,6 +265,7 @@ public abstract class Vehicle implements VehicleObserver {
    *
    * @return whether the trip was completed
    */
+
   public boolean provideInfo() {
     boolean tripCompleted = false;
     if (!isTripComplete()) {
