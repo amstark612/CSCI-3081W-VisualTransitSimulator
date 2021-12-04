@@ -57,6 +57,14 @@ public abstract class Vehicle implements VehicleObserver {
 
   public abstract int getCurrentCO2Emission();
 
+  public List<Integer> getCarbonEmissionHistory() {
+    return carbonEmissionHistory;
+  }
+
+  public void setCarbonEmissionHistory(List<Integer> carbonEmissionHistory) {
+    this.carbonEmissionHistory = carbonEmissionHistory;
+  }
+
   public int getId() {
     return id;
   }
@@ -79,6 +87,10 @@ public abstract class Vehicle implements VehicleObserver {
 
   public List<Passenger> getPassengers() {
     return passengers;
+  }
+
+  public void setPassengers(List<Passenger> passengers) {
+    this.passengers = passengers;
   }
 
   public String getName() {
@@ -233,6 +245,10 @@ public abstract class Vehicle implements VehicleObserver {
     return nextStop;
   }
 
+  public void setNextStop(Stop nextStop) {
+    this.nextStop = nextStop;
+  }
+
   public Line getLine() {
     return line;
   }
@@ -241,6 +257,9 @@ public abstract class Vehicle implements VehicleObserver {
     return distanceRemaining;
   }
 
+  public void setDistanceRemaining(double distanceRemaining) {
+    this.distanceRemaining = distanceRemaining;
+  }
   /**
    * Retrieves the current vehicle information sends the information to the visualization module.
    *

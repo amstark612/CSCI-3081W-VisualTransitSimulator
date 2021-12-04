@@ -14,7 +14,14 @@ public abstract class VehicleDecorator extends Vehicle {
   public VehicleDecorator(Vehicle vehicle) {
     super(vehicle.getId(), vehicle.getLine(), vehicle.getCapacity(), vehicle.getSpeed(),
           vehicle.getPassengerLoader(), vehicle.getPassengerUnloader());
+    this.vehicle = vehicle;
+
+    // set this vehicle to current vehicle's state so it doesn't behave like a new vehicle
+    setPassengers(vehicle.getPassengers());
+    setDistanceRemaining(vehicle.getDistanceRemaining());
+    setNextStop(vehicle.getNextStop());
     setPosition(vehicle.getPosition());
+    setCarbonEmissionHistory(vehicle.getCarbonEmissionHistory());
     this.vehicle = vehicle;
   }
 

@@ -126,9 +126,9 @@ public class VisualTransitSimulator {
 
       // update vehicle opacity based on state of its line
       // and update active vehicles list accordingly
-      boolean isFrozen = currVehicle.getLine().isIssueExist();
+      boolean isLineIssue = currVehicle.getLine().isIssueExist();
       boolean isTransparent = currVehicle instanceof TransparentVehicleDecorator;
-      if (isFrozen && !isTransparent) {
+      if (isLineIssue && !isTransparent) {
         currVehicle = new TransparentVehicleDecorator(currVehicle);
         activeVehicles.set(i, currVehicle);
       }
