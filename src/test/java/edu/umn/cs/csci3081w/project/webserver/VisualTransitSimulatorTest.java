@@ -69,11 +69,10 @@ public class VisualTransitSimulatorTest {
   }
 
   /**
-   * Tests vehicle factory creation and VTS's responsibility of
-   * changing vehicle opacity based on line state.
+   * Tests VTS's responsibility of changing vehicle opacity based on line state.
    */
   @Test
-  public void testSetFactoriesAndUpdateVehicleOpacity() {
+  public void testUpdateVehicleOpacity() {
     vts.setVehicleFactories(9);
     for (int i = 0; i < 99; i++) {
       vts.update();
