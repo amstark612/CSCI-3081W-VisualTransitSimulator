@@ -1,25 +1,14 @@
 package edu.umn.cs.csci3081w.project.webserver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import com.google.gson.JsonObject;
-import edu.umn.cs.csci3081w.project.model.PassengerFactory;
-import edu.umn.cs.csci3081w.project.model.RandomPassengerGenerator;
 import edu.umn.cs.csci3081w.project.model.Line;
 import edu.umn.cs.csci3081w.project.model.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
-import javax.websocket.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 
 public class VisualTransitSimulatorTest {
 
@@ -73,6 +62,7 @@ public class VisualTransitSimulatorTest {
    */
   @Test
   public void testUpdateVehicleOpacity() {
+    VisualTransitSimulator.setLOGGING(true);
     vts.setVehicleFactories(9);
     for (int i = 0; i < 99; i++) {
       vts.update();
@@ -93,6 +83,8 @@ public class VisualTransitSimulatorTest {
     for (Vehicle vehicle: vts.getActiveVehicles()) {
       assertEquals(155, vehicle.getAlpha());
     }
+
+    vts.update();
   }
 
   /**

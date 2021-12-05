@@ -203,4 +203,8 @@ public class VisualTransitSimulator {
   public VehicleConcreteSubject getVehicleConcreteSubject() {
     return vehicleConcreteSubject;
   }
+
+  public static void setLOGGING(boolean LOGGING) {
+    VisualTransitSimulator.LOGGING = LOGGING;
+  }
 }
