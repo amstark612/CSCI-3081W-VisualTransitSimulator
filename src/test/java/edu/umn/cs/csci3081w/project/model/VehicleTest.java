@@ -69,6 +69,10 @@ public class VehicleTest {
     assertEquals(1, testVehicle.getSpeed());
     assertEquals(testRouteOut, testVehicle.getLine().getOutboundRoute());
     assertEquals(testRouteIn, testVehicle.getLine().getInboundRoute());
+    assertEquals(255, testVehicle.getRed());
+    assertEquals(255, testVehicle.getGreen());
+    assertEquals(255, testVehicle.getBlue());
+    assertEquals(255, testVehicle.getAlpha());
   }
 
   /**
