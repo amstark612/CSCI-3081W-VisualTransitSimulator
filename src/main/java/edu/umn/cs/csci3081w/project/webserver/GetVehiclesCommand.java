@@ -36,13 +36,13 @@ public class GetVehiclesCommand extends SimulatorCommand {
       s.addProperty("numPassengers", currVehicle.getPassengers().size());
       s.addProperty("capacity", currVehicle.getCapacity());
       String vehicleType = "";
-      if (currVehicle instanceof SmallBus) {
+      if (currVehicle.getBaseVehicle() instanceof SmallBus) {
         vehicleType = SmallBus.SMALL_BUS_VEHICLE;
-      } else if (currVehicle instanceof LargeBus) {
+      } else if (currVehicle.getBaseVehicle() instanceof LargeBus) {
         vehicleType = LargeBus.LARGE_BUS_VEHICLE;
-      } else if (currVehicle instanceof ElectricTrain) {
+      } else if (currVehicle.getBaseVehicle() instanceof ElectricTrain) {
         vehicleType = ElectricTrain.ELECTRIC_TRAIN_VEHICLE;
-      } else if (currVehicle instanceof DieselTrain) {
+      } else if (currVehicle.getBaseVehicle() instanceof DieselTrain) {
         vehicleType = DieselTrain.DIESEL_TRAIN_VEHICLE;
       }
       s.addProperty("type", vehicleType);
@@ -52,10 +52,10 @@ public class GetVehiclesCommand extends SimulatorCommand {
       positionJsonObject.addProperty("latitude", currVehicle.getPosition().getLatitude());
       s.add("position", positionJsonObject);
       JsonObject colorJsonObject = new JsonObject();
-      colorJsonObject.addProperty("r", 255);
-      colorJsonObject.addProperty("g", 255);
-      colorJsonObject.addProperty("b", 255);
-      colorJsonObject.addProperty("alpha", 255);
+      colorJsonObject.addProperty("r", currVehicle.getRed());
+      colorJsonObject.addProperty("g", currVehicle.getGreen());
+      colorJsonObject.addProperty("b", currVehicle.getBlue());
+      colorJsonObject.addProperty("alpha", currVehicle.getAlpha());
       s.add("color", colorJsonObject);
       vehiclesArray.add(s);
     }

@@ -63,7 +63,7 @@ public class TrainFactoryTest {
         new Issue());
 
     Vehicle vehicle1 = trainFactory.generateVehicle(line);
-    assertTrue(vehicle1 instanceof ElectricTrain);
+    assertTrue(vehicle1.getBaseVehicle() instanceof ElectricTrain);
   }
 
   /**

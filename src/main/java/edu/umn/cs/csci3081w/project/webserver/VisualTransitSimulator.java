@@ -7,6 +7,7 @@ import edu.umn.cs.csci3081w.project.model.Line;
 import edu.umn.cs.csci3081w.project.model.StorageFacility;
 import edu.umn.cs.csci3081w.project.model.Train;
 import edu.umn.cs.csci3081w.project.model.TrainFactory;
+import edu.umn.cs.csci3081w.project.model.TransparentVehicleDecorator;
 import edu.umn.cs.csci3081w.project.model.Vehicle;
 import edu.umn.cs.csci3081w.project.model.VehicleConcreteSubject;
 import edu.umn.cs.csci3081w.project.model.VehicleFactory;
@@ -122,13 +123,23 @@ public class VisualTransitSimulator {
     // update vehicles
     for (int i = activeVehicles.size() - 1; i >= 0; i--) {
       Vehicle currVehicle = activeVehicles.get(i);
+
+      // update vehicle opacity based on state of its line
+      // and update active vehicles list accordingly
+      boolean isLineIssue = currVehicle.getLine().isIssueExist();
+      boolean isTransparent = currVehicle instanceof TransparentVehicleDecorator;
+      if (isLineIssue && !isTransparent) {
+        currVehicle = new TransparentVehicleDecorator(currVehicle);
+        activeVehicles.set(i, currVehicle);
+      }
+
       currVehicle.update();
       if (currVehicle.isTripComplete()) {
         Vehicle completedTripVehicle = activeVehicles.remove(i);
         completedTripVehicles.add(completedTripVehicle);
-        if (completedTripVehicle instanceof Bus) {
+        if (completedTripVehicle.getBaseVehicle() instanceof Bus) {
           busFactory.returnVehicle(completedTripVehicle);
-        } else if (completedTripVehicle instanceof Train) {
+        } else if (completedTripVehicle.getBaseVehicle() instanceof Train) {
           trainFactory.returnVehicle(completedTripVehicle);
         }
       } else {
