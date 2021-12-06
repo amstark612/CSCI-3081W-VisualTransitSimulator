@@ -63,4 +63,7 @@ public class GetVehiclesCommand extends SimulatorCommand {
     session.sendJson(data);
   }
 
+  public VisualTransitSimulator getSimulator() {
+    return simulator;
+  }
 }

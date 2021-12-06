@@ -175,4 +175,36 @@ public class VisualTransitSimulator {
   public void addObserver(Vehicle vehicle) {
     vehicleConcreteSubject.attachObserver(vehicle);
   }
+
+  public List<Vehicle> getCompletedTripVehicles() {
+    return completedTripVehicles;
+  }
+
+  public StorageFacility getStorageFacility() {
+    return storageFacility;
+  }
+
+  public WebServerSession getWebServerSession() {
+    return webServerSession;
+  }
+
+  public List<Integer> getTimeSinceLastVehicle() {
+    return timeSinceLastVehicle;
+  }
+
+  public int getSimulationTimeElapsed() {
+    return simulationTimeElapsed;
+  }
+
+  public int getNumTimeSteps() {
+    return numTimeSteps;
+  }
+
+  public VehicleConcreteSubject getVehicleConcreteSubject() {
+    return vehicleConcreteSubject;
+  }
+
+  public static void setLOGGING(boolean LOGGING) {
+    VisualTransitSimulator.LOGGING = LOGGING;
+  }
 }
