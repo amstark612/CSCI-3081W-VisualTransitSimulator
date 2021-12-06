@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Vehicle implements VehicleObserver {
-  public static boolean TESTING = false;
   private int id;
   private int capacity;
   //the speed is in distance over a time unit
@@ -22,7 +21,6 @@ public abstract class Vehicle implements VehicleObserver {
   private Stop nextStop;
   private List<Integer> carbonEmissionHistory;
   private VehicleConcreteSubject vehicleConcreteSubject;
-  private JsonObject testOutput;
   private Color color;
 
   /**
@@ -260,12 +258,12 @@ public abstract class Vehicle implements VehicleObserver {
   public void setDistanceRemaining(double distanceRemaining) {
     this.distanceRemaining = distanceRemaining;
   }
+
   /**
    * Retrieves the current vehicle information sends the information to the visualization module.
    *
    * @return whether the trip was completed
    */
-
   public boolean provideInfo() {
     boolean tripCompleted = false;
     if (!isTripComplete()) {
@@ -305,29 +303,21 @@ public abstract class Vehicle implements VehicleObserver {
           + System.lineSeparator());
 
       data.addProperty("text", stringBuilder.toString());
-      if (TESTING) {
-        testOutput = data;
-      } else {
-        vehicleConcreteSubject.getSession().sendJson(data);
-      }
+      vehicleConcreteSubject.getSession().sendJson(data);
       tripCompleted = false;
       return tripCompleted;
     } else {
       JsonObject data = new JsonObject();
       data.addProperty("command", "observedVehicle");
       data.addProperty("text", "");
-      if (TESTING) {
-        testOutput = data;
-      } else {
-        vehicleConcreteSubject.getSession().sendJson(data);
-      }
+      vehicleConcreteSubject.getSession().sendJson(data);
       tripCompleted = true;
       return tripCompleted;
     }
   }
 
-  public JsonObject getTestOutput() {
-    return testOutput;
+  public VehicleConcreteSubject getVehicleSubject() {
+    return vehicleConcreteSubject;
   }
 
   public void setVehicleSubject(VehicleConcreteSubject vehicleConcreteSubject) {

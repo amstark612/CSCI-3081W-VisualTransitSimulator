@@ -12,19 +12,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import edu.umn.cs.csci3081w.project.model.DieselTrain;
 import edu.umn.cs.csci3081w.project.model.ElectricTrain;
-import edu.umn.cs.csci3081w.project.model.Position;
-import edu.umn.cs.csci3081w.project.model.Vehicle;
 import edu.umn.cs.csci3081w.project.model.LargeBus;
 import edu.umn.cs.csci3081w.project.model.Line;
 import edu.umn.cs.csci3081w.project.model.PassengerLoader;
 import edu.umn.cs.csci3081w.project.model.PassengerUnloader;
+import edu.umn.cs.csci3081w.project.model.Position;
 import edu.umn.cs.csci3081w.project.model.Route;
 import edu.umn.cs.csci3081w.project.model.SmallBus;
 import edu.umn.cs.csci3081w.project.model.Stop;
+import edu.umn.cs.csci3081w.project.model.Vehicle;
 import edu.umn.cs.csci3081w.project.model.VehicleTestImpl;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -63,7 +62,7 @@ public class GetVehiclesCommandTest {
   }
 
   /**
-   * Test normal constructor
+   * Test normal constructor.
    */
   @Test
   public void testConstructorNormal() {

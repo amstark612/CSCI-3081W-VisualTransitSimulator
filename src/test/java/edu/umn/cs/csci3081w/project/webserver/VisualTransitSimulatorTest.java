@@ -62,7 +62,7 @@ public class VisualTransitSimulatorTest {
    */
   @Test
   public void testUpdateVehicleOpacity() {
-    VisualTransitSimulator.setLOGGING(true);
+    VisualTransitSimulator.setLogging(true);
     vts.setVehicleFactories(9);
     for (int i = 0; i < 99; i++) {
       vts.update();
