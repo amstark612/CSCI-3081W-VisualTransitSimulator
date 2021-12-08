@@ -1,12 +1,12 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import com.google.gson.JsonObject;
+import java.awt.Color;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Vehicle implements VehicleObserver {
-  public static boolean TESTING = false;
   private int id;
   private int capacity;
   //the speed is in distance over a time unit
@@ -21,8 +21,7 @@ public abstract class Vehicle implements VehicleObserver {
   private Stop nextStop;
   private List<Integer> carbonEmissionHistory;
   private VehicleConcreteSubject vehicleConcreteSubject;
-  private JsonObject testOutput;
-
+  private Color color;
 
   /**
    * Constructor for a vehicle.
@@ -49,11 +48,20 @@ public abstract class Vehicle implements VehicleObserver {
     setPosition(new Position(nextStop.getPosition().getLongitude(),
         nextStop.getPosition().getLatitude()));
     carbonEmissionHistory = new ArrayList<Integer>();
+    color = new Color(255, 255, 255, 255);
   }
 
   public abstract void report(PrintStream out);
 
   public abstract int getCurrentCO2Emission();
+
+  public List<Integer> getCarbonEmissionHistory() {
+    return carbonEmissionHistory;
+  }
+
+  public void setCarbonEmissionHistory(List<Integer> carbonEmissionHistory) {
+    this.carbonEmissionHistory = carbonEmissionHistory;
+  }
 
   public int getId() {
     return id;
@@ -77,6 +85,10 @@ public abstract class Vehicle implements VehicleObserver {
 
   public List<Passenger> getPassengers() {
     return passengers;
+  }
+
+  public void setPassengers(List<Passenger> passengers) {
+    this.passengers = passengers;
   }
 
   public String getName() {
@@ -231,12 +243,20 @@ public abstract class Vehicle implements VehicleObserver {
     return nextStop;
   }
 
+  public void setNextStop(Stop nextStop) {
+    this.nextStop = nextStop;
+  }
+
   public Line getLine() {
     return line;
   }
 
   public double getDistanceRemaining() {
     return distanceRemaining;
+  }
+
+  public void setDistanceRemaining(double distanceRemaining) {
+    this.distanceRemaining = distanceRemaining;
   }
 
   /**
@@ -283,32 +303,48 @@ public abstract class Vehicle implements VehicleObserver {
           + System.lineSeparator());
 
       data.addProperty("text", stringBuilder.toString());
-      if (TESTING) {
-        testOutput = data;
-      } else {
-        vehicleConcreteSubject.getSession().sendJson(data);
-      }
+      vehicleConcreteSubject.getSession().sendJson(data);
       tripCompleted = false;
       return tripCompleted;
     } else {
       JsonObject data = new JsonObject();
       data.addProperty("command", "observedVehicle");
       data.addProperty("text", "");
-      if (TESTING) {
-        testOutput = data;
-      } else {
-        vehicleConcreteSubject.getSession().sendJson(data);
-      }
+      vehicleConcreteSubject.getSession().sendJson(data);
       tripCompleted = true;
       return tripCompleted;
     }
   }
 
-  public JsonObject getTestOutput() {
-    return testOutput;
+  public VehicleConcreteSubject getVehicleSubject() {
+    return vehicleConcreteSubject;
   }
 
   public void setVehicleSubject(VehicleConcreteSubject vehicleConcreteSubject) {
     this.vehicleConcreteSubject = vehicleConcreteSubject;
+  }
+
+  public int getRed() {
+    return color.getRed();
+  }
+
+  public int getGreen() {
+    return color.getGreen();
+  }
+
+  public int getBlue() {
+    return color.getBlue();
+  }
+
+  public int getAlpha() {
+    return color.getAlpha();
+  }
+
+  public Vehicle getVehicle() {
+    return this;
+  }
+
+  public Vehicle getBaseVehicle() {
+    return this;
   }
 }

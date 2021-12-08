@@ -63,7 +63,7 @@ public class BusFactoryTest {
         new Issue());
 
     Vehicle vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof LargeBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof LargeBus);
   }
 
   /**
