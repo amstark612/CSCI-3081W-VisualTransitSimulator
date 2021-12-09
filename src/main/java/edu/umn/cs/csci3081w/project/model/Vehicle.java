@@ -271,13 +271,13 @@ public abstract class Vehicle implements VehicleObserver {
       data.addProperty("command", "observedVehicle");
 
       String type = "";
-      if (this instanceof SmallBus) {
+      if (getBaseVehicle() instanceof SmallBus) {
         type = SmallBus.SMALL_BUS_VEHICLE;
-      } else if (this instanceof LargeBus) {
+      } else if (getBaseVehicle() instanceof LargeBus) {
         type = LargeBus.LARGE_BUS_VEHICLE;
-      } else if (this instanceof ElectricTrain) {
+      } else if (getBaseVehicle() instanceof ElectricTrain) {
         type = ElectricTrain.ELECTRIC_TRAIN_VEHICLE;
-      } else if (this instanceof DieselTrain) {
+      } else if (getBaseVehicle() instanceof DieselTrain) {
         type = DieselTrain.DIESEL_TRAIN_VEHICLE;
       }
 
