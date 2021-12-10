@@ -18,6 +18,8 @@
   <br>
   <p>The user of the VTS software interacts with the visualization module using the browser and can specific how long the simulation will run (i.e., how many time units) and how often new vehicles will be added to a route in the simulation. The users also specifies when to start the simulation. The user can click on a vehicle to display detailed information about the vehicle. The user can also select a line from the drop down menu provided by the visualization module to simulate an issue on that line. </p>
   <br>
+  <h2>Testing</h2>
+  <p>To run the unit tests, run <code>./gradlew clean check</code>. To evaluate and view branch coverage of those tests, run <code>./gradlew clean test jacocoTestReport</code> and open <code>http://localhost:63342/project_iteration_3-Team05/build/reports/jacoco/test/html/index.html</code> in your browser.</p>
   <h2>Design</h2>
   <h3>UML Class Diagram for Model Classes</h3>
   <img src="model_diagram.png" alt="UML Class Diagram for Model Classes" width="800" height="400">
