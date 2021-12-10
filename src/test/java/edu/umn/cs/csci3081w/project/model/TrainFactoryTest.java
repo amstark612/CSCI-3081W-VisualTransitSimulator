@@ -109,4 +109,199 @@ public class TrainFactoryTest {
     assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
 
   }
+
+  /**
+   * Testing if vehicle got returned.
+   */
+  @Test
+  public void testReturnVehicleDieselTrain() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Train testTrain = new DieselTrain(1, new Line(10000, "testLine", "BUS",
+        testRouteOut, testRouteIn, new Issue()), 3, 1.0);
+
+    assertEquals(3, trainFactory.getStorageFacility().getElectricTrainsNum());
+    assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
+    trainFactory.returnVehicle(testTrain);
+    assertEquals(3, trainFactory.getStorageFacility().getElectricTrainsNum());
+    assertEquals(4, trainFactory.getStorageFacility().getDieselTrainsNum());
+
+  }
+
+  /**
+   * Testing if nothing gets incremented.
+   */
+  @Test
+  public void testReturnVehicleNull() {
+
+    Train testTrain = null;
+
+    assertEquals(3, trainFactory.getStorageFacility().getElectricTrainsNum());
+    assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
+    trainFactory.returnVehicle(testTrain);
+    assertEquals(3, trainFactory.getStorageFacility().getElectricTrainsNum());
+    assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
+
+  }
+
+  /**
+   * Testing if nothing gets incremented for an invalid vehicle.
+   */
+  @Test
+  public void testReturnVehicleInvalidType() {
+
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Line testLine = new Line(10000, "testLine", "VEHICLE_LINE", testRouteOut, testRouteIn,
+        new Issue());
+
+    VehicleTestImpl testVehicle = new VehicleTestImpl(1, testLine, 30, 1.0, new PassengerLoader(),
+        new PassengerUnloader());
+
+    assertEquals(3, trainFactory.getStorageFacility().getElectricTrainsNum());
+    assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
+    trainFactory.returnVehicle(testVehicle);
+    assertEquals(3, trainFactory.getStorageFacility().getElectricTrainsNum());
+    assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
+
+  }
+
+  /**
+   * Testing if factory correctly generates trains using the night pattern.
+   */
+  @Test
+  public void testGenerateVehicleNight() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Line line = new Line(10000, "testLine", "TRAIN", testRouteOut, testRouteIn,
+        new Issue());
+    this.trainFactory = new TrainFactory(this.storageFacility, new Counter(), 4);
+    Vehicle vehicle1 = trainFactory.generateVehicle(line);
+    assertTrue(vehicle1.getBaseVehicle() instanceof ElectricTrain);
+    Vehicle vehicle2 = trainFactory.generateVehicle(line);
+    assertTrue(vehicle2.getBaseVehicle() instanceof DieselTrain);
+  }
+
+  /**
+   * Testing if factory correctly stops generating trains when no more are available.
+   */
+  @Test
+  public void testGenerateVehicleNightUntilNull() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Line line = new Line(10000, "testLine", "TRAIN", testRouteOut, testRouteIn,
+        new Issue());
+    this.storageFacility = new StorageFacility(0, 0, 1, 1);
+    this.trainFactory = new TrainFactory(this.storageFacility, new Counter(), 23);
+    Vehicle vehicle1 = trainFactory.generateVehicle(line);
+    assertTrue(vehicle1.getBaseVehicle() instanceof ElectricTrain);
+    Vehicle vehicle2 = trainFactory.generateVehicle(line);
+    assertTrue(vehicle2.getBaseVehicle() instanceof DieselTrain);
+    Vehicle vehicle3 = trainFactory.generateVehicle(line);
+    assertEquals(null, vehicle3);
+  }
 }

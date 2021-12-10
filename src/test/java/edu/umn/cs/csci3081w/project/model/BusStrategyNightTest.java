@@ -34,4 +34,44 @@ public class BusStrategyNightTest {
       assertEquals(LargeBus.LARGE_BUS_VEHICLE, strToCmpr);
     }
   }
+
+  /**
+   * Testing to get nothing when no vehicles are available.
+   */
+  @Test
+  public void testNoVehiclesAvailable() {
+    StorageFacility storageFacility = new StorageFacility(0, 0, 0, 0);
+    BusStrategyNight busStrategyDay = new BusStrategyNight();
+    String strToCmpr;
+    for (int i = 0; i < 1; i++) {
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+    }
+  }
+
+  /**
+   * Testing to get small buses, but no large buses if there are none.
+   */
+  @Test
+  public void testNoLargeVehicles() {
+    StorageFacility storageFacility = new StorageFacility(3, 0, 0, 0);
+    BusStrategyNight busStrategyDay = new BusStrategyNight();
+    String strToCmpr;
+    for (int i = 0; i < 1; i++) {
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(SmallBus.SMALL_BUS_VEHICLE, strToCmpr);
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(SmallBus.SMALL_BUS_VEHICLE, strToCmpr);
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(SmallBus.SMALL_BUS_VEHICLE, strToCmpr);
+      strToCmpr = busStrategyDay.getTypeOfVehicle(storageFacility);
+      assertEquals(null, strToCmpr);
+    }
+  }
 }
