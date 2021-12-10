@@ -155,7 +155,54 @@ public class BusFactoryTest {
   }
 
   /**
-   * Testing if nothing got returned.
+   * Testing if nothing got returned for a generic vehicle.
+   */
+  @Test
+  public void testReturnVehicleGeneric() {
+    List<Stop> stopsIn = new ArrayList<Stop>();
+    Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
+    Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
+    stopsIn.add(stop1);
+    stopsIn.add(stop2);
+    List<Double> distancesIn = new ArrayList<>();
+    distancesIn.add(0.843774422231134);
+    List<Double> probabilitiesIn = new ArrayList<Double>();
+    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.3);
+    PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
+
+    Route testRouteIn = new Route(0, "testRouteIn",
+        stopsIn, distancesIn, generatorIn);
+
+    List<Stop> stopsOut = new ArrayList<Stop>();
+    stopsOut.add(stop2);
+    stopsOut.add(stop1);
+    List<Double> distancesOut = new ArrayList<>();
+    distancesOut.add(0.843774422231134);
+    List<Double> probabilitiesOut = new ArrayList<Double>();
+    probabilitiesOut.add(0.3);
+    probabilitiesOut.add(.025);
+    PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
+
+    Route testRouteOut = new Route(1, "testRouteOut",
+        stopsOut, distancesOut, generatorOut);
+
+    Line testLine = new Line(10000, "testLine", "VEHICLE_LINE", testRouteOut, testRouteIn,
+        new Issue());
+
+    VehicleTestImpl testVehicle = new VehicleTestImpl(1, testLine, 30, 1.0, new PassengerLoader(),
+        new PassengerUnloader());
+
+    assertEquals(2, busFactory.getStorageFacility().getSmallBusesNum());
+    assertEquals(1, busFactory.getStorageFacility().getLargeBusesNum());
+    busFactory.returnVehicle(testVehicle);
+    assertEquals(2, busFactory.getStorageFacility().getSmallBusesNum());
+    assertEquals(1, busFactory.getStorageFacility().getLargeBusesNum());
+
+  }
+
+  /**
+   * Testing if nothing got returned for an invalid parameter.
    */
   @Test
   public void testReturnVehicleNull() {
@@ -207,13 +254,13 @@ public class BusFactoryTest {
     this.storageFacility = new StorageFacility(3, 1, 0, 0);
     this.busFactory = new BusFactory(this.storageFacility, new Counter(), 4);
     Vehicle vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof SmallBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof SmallBus);
     vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof SmallBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof SmallBus);
     vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof SmallBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof SmallBus);
     vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof LargeBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof LargeBus);
   }
 
   /**
@@ -295,11 +342,11 @@ public class BusFactoryTest {
     this.storageFacility = new StorageFacility(3, 0, 0, 0);
     this.busFactory = new BusFactory(this.storageFacility, new Counter(), 23);
     Vehicle vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof SmallBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof SmallBus);
     vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof SmallBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof SmallBus);
     vehicle = busFactory.generateVehicle(line);
-    assertTrue(vehicle instanceof SmallBus);
+    assertTrue(vehicle.getBaseVehicle() instanceof SmallBus);
     vehicle = busFactory.generateVehicle(line);
     assertEquals(null, vehicle);
   }

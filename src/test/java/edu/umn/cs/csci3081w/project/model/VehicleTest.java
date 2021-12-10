@@ -1,6 +1,7 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -18,6 +19,7 @@ public class VehicleTest {
   private Vehicle testVehicle;
   private Route testRouteIn;
   private Route testRouteOut;
+  private Line testLine;
 
 
   /**
@@ -53,9 +55,10 @@ public class VehicleTest {
     testRouteOut = new Route(1, "testRouteOut",
         stopsOut, distancesOut, generatorOut);
 
-    testVehicle = new VehicleTestImpl(1, new Line(10000, "testLine",
-        "VEHICLE_LINE", testRouteOut, testRouteIn,
-        new Issue()), 3, 1.0, new PassengerLoader(), new PassengerUnloader());
+    testLine = new Line(10000, "testLine", "VEHICLE_LINE", testRouteOut, testRouteIn, new Issue());
+
+    testVehicle = new VehicleTestImpl(1, testLine, 3, 1.0, new PassengerLoader(),
+        new PassengerUnloader());
   }
 
   /**
@@ -89,6 +92,18 @@ public class VehicleTest {
 
   }
 
+  /**
+   * Tests if getVehicleSubject and getVehicle functions work properly.
+   */
+  @Test
+  public void testVehicleGetters() {
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject concreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testVehicle.setVehicleSubject(concreteSubject);
+    assertTrue(testVehicle.getVehicleSubject() instanceof VehicleConcreteSubject);
+    assertTrue(testVehicle.getVehicle() instanceof VehicleTestImpl);
+
+  }
 
   /**
    * Tests if loadPassenger function works properly.
@@ -165,6 +180,193 @@ public class VehicleTest {
    */
   @Test
   public void testProvideInfo() {
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testVehicle.setVehicleSubject(vehicleConcreteSubject);
+    testVehicle.update();
+    testVehicle.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    String expectedText = "1" + System.lineSeparator()
+        + "-----------------------------" + System.lineSeparator()
+        + "* Type: " + System.lineSeparator()
+        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
+        + "* Passengers: 0" + System.lineSeparator()
+        + "* CO2: 0" + System.lineSeparator();
+    assertEquals(expectedText, message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if info is correctly provided if called before update.
+   */
+  @Test
+  public void testProvideInfoNoUpdate() {
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testVehicle.setVehicleSubject(vehicleConcreteSubject);
+    testVehicle.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    String expectedText = "1" + System.lineSeparator()
+        + "-----------------------------" + System.lineSeparator()
+        + "* Type: " + System.lineSeparator()
+        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
+        + "* Passengers: 0" + System.lineSeparator()
+        + "* CO2: " + System.lineSeparator();
+    assertEquals(expectedText, message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if info is correctly provided if called after 3 updates.
+   */
+  @Test
+  public void testProvideInfoThreeUpdates() {
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testVehicle.setVehicleSubject(vehicleConcreteSubject);
+    for (int i = 0; i < 3; i++) {
+      testVehicle.update();
+    }
+    testVehicle.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    String expectedText = "1" + System.lineSeparator()
+        + "-----------------------------" + System.lineSeparator()
+        + "* Type: " + System.lineSeparator()
+        + "* Position: (-93.243774,44.972392)" + System.lineSeparator()
+        + "* Passengers: 0" + System.lineSeparator()
+        + "* CO2: 0, 0, 0" + System.lineSeparator();
+    assertEquals(expectedText, message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if info is correctly provided if called after the trip is complete.
+   */
+  @Test
+  public void testProvideInfoTripComplete() {
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testVehicle.setVehicleSubject(vehicleConcreteSubject);
+    for (int i = 0; i < 10; i++) {
+      testVehicle.update();
+    }
+    testVehicle.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    assertEquals("", message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if information is correctly provided for a SmallBus.
+   */
+  @Test
+  public void testProvideInfoSmallBus() {
+    SmallBus testSmallBus = new SmallBus(1, testLine, 30, 1.0);
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testSmallBus.setVehicleSubject(vehicleConcreteSubject);
+    testSmallBus.update();
+    testSmallBus.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    String expectedText = "1" + System.lineSeparator()
+        + "-----------------------------" + System.lineSeparator()
+        + "* Type: " + SmallBus.SMALL_BUS_VEHICLE + System.lineSeparator()
+        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
+        + "* Passengers: 0" + System.lineSeparator()
+        + "* CO2: 1" + System.lineSeparator();
+    assertEquals(expectedText, message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if information is correctly provided for a LargeBus.
+   */
+  @Test
+  public void testProvideInfoLargeBus() {
+    LargeBus testLargeBus = new LargeBus(1, testLine, 30, 1.0);
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testLargeBus.setVehicleSubject(vehicleConcreteSubject);
+    testLargeBus.update();
+    testLargeBus.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    String expectedText = "1" + System.lineSeparator()
+        + "-----------------------------" + System.lineSeparator()
+        + "* Type: " + LargeBus.LARGE_BUS_VEHICLE + System.lineSeparator()
+        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
+        + "* Passengers: 0" + System.lineSeparator()
+        + "* CO2: 3" + System.lineSeparator();
+    assertEquals(expectedText, message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if information is correctly provided for a DieselTrain.
+   */
+  @Test
+  public void testProvideInfoDieselTrain() {
+    DieselTrain testDieselTrain = new DieselTrain(1, testLine, 30, 1.0);
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testDieselTrain.setVehicleSubject(vehicleConcreteSubject);
+    testDieselTrain.update();
+    testDieselTrain.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    String expectedText = "1" + System.lineSeparator()
+        + "-----------------------------" + System.lineSeparator()
+        + "* Type: " + DieselTrain.DIESEL_TRAIN_VEHICLE + System.lineSeparator()
+        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
+        + "* Passengers: 0" + System.lineSeparator()
+        + "* CO2: 6" + System.lineSeparator();
+    assertEquals(expectedText, message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if information is correctly provided for an ElectricTrain.
+   */
+  @Test
+  public void testProvideInfoElectricTrain() {
+    ElectricTrain testElectricTrain = new ElectricTrain(1, testLine, 30, 1.0);
+    WebServerSession sessionDummy = mock(WebServerSession.class);
+    VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
+    testElectricTrain.setVehicleSubject(vehicleConcreteSubject);
+    testElectricTrain.update();
+    testElectricTrain.provideInfo();
+    ArgumentCaptor<JsonObject> messageCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(sessionDummy).sendJson(messageCaptor.capture());
+    JsonObject message = messageCaptor.getValue();
+    String expectedText = "1" + System.lineSeparator()
+        + "-----------------------------" + System.lineSeparator()
+        + "* Type: " + ElectricTrain.ELECTRIC_TRAIN_VEHICLE + System.lineSeparator()
+        + "* Position: (-93.235071,44.973580)" + System.lineSeparator()
+        + "* Passengers: 0" + System.lineSeparator()
+        + "* CO2: 0" + System.lineSeparator();
+    assertEquals(expectedText, message.get("text").getAsString());
+
+  }
+
+  /**
+   * Test to see if vehicle does not move if speed is negative.
+   */
+  @Test
+  public void testUpdateNegativeSpeed() {
+    testVehicle = new VehicleTestImpl(1, testLine, 10, -1.0, new PassengerLoader(),
+        new PassengerUnloader());
     WebServerSession sessionDummy = mock(WebServerSession.class);
     VehicleConcreteSubject vehicleConcreteSubject = new VehicleConcreteSubject(sessionDummy);
     testVehicle.setVehicleSubject(vehicleConcreteSubject);

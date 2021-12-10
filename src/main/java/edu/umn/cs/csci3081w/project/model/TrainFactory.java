@@ -48,6 +48,9 @@ public class TrainFactory implements VehicleFactory {
 
   @Override
   public void returnVehicle(Vehicle vehicle) {
+    if (vehicle == null) {
+      return;
+    }
     if (vehicle.getBaseVehicle() instanceof ElectricTrain) {
       storageFacility.incrementElectricTrainsNum();
     } else if (vehicle.getBaseVehicle() instanceof DieselTrain) {
